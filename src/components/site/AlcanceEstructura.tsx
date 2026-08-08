@@ -21,7 +21,7 @@ const AlcanceEstructura = () => {
           <Reveal>
             <div className="surface-card flex h-full flex-col justify-between rounded-3xl p-8">
               <div className="space-y-4">
-                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-olive text-accent-foreground">
                   <Users className="size-6" />
                 </div>
                 <h3 className="font-display text-2xl font-semibold">Alcance</h3>
@@ -38,7 +38,7 @@ const AlcanceEstructura = () => {
           <Reveal delay={0.1}>
             <div className="surface-card flex h-full flex-col justify-between rounded-3xl p-8">
               <div className="space-y-4">
-                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-olive text-accent-foreground ">
                   <Compass className="size-6" />
                 </div>
                 <h3 className="font-display text-2xl font-semibold">Estructura</h3>

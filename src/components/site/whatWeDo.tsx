@@ -74,7 +74,7 @@ const WhatWeDo = () => {
           <Reveal delay={0.3} className="h-full">
             <div className="surface-card flex h-full flex-col justify-between rounded-3xl p-8 transition-shadow hover:shadow-md">
               <div className="space-y-4">
-                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-olive text-accent-foreground">
                   <Heart className="size-6 text-honey-deep" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-foreground">

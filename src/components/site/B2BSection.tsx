@@ -35,8 +35,7 @@ export function B2BSection() {
                   isExternal: true,
                 }}
           />
-
-      
+           
     </section>
   );
 }
