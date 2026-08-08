@@ -70,7 +70,7 @@ export function CtaBanner({
       {/* Contenido principal */}
       <Reveal className="w-full">
         <div className="container-page relative z-10 flex flex-col items-center justify-center text-center text-accent">
-          <h2 className="font-display text-2xl font-bold md:text-4xl text-balance">
+          <h2 className="font-display text-2xl font-bold md:text-4xl text-white text-balance">
             {title}
           </h2>
 
