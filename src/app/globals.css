@@ -108,51 +108,64 @@
   --gradient-warm: linear-gradient(180deg, var(--ivory), var(--cream));
 }
 
-/* Alto contraste (widget de accesibilidad) */
-.a11y-contrast {
+/* ==========================================================================
+   MÓDULOS DE ACCESIBILIDAD (WCAG 2.1 AA)
+   ========================================================================== */
+
+/* 1. Alto Contraste */
+html.a11y-contrast {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.14 0 0);
+  --foreground: oklch(0.1 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.14 0 0);
+  --card-foreground: oklch(0.1 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.14 0 0);
-  --muted: oklch(0.94 0 0);
-  --muted-foreground: oklch(0.26 0 0);
-  --primary: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.1 0 0);
+  --muted: oklch(0.92 0 0);
+  --muted-foreground: oklch(0.2 0 0);
+  --primary: oklch(0.15 0 0);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.94 0 0);
-  --secondary-foreground: oklch(0.14 0 0);
-  --accent: oklch(0.9 0 0);
-  --accent-foreground: oklch(0.14 0 0);
-  --border: oklch(0.24 0 0);
-  --input: oklch(0.24 0 0);
-  --ring: oklch(0.14 0 0);
-  --honey: oklch(0.62 0.16 70);
-  --olive: oklch(0.35 0.08 130);
-  --sage: oklch(0.5 0.06 150);
+  --secondary: oklch(0.92 0 0);
+  --secondary-foreground: oklch(0.1 0 0);
+  --accent: oklch(0.88 0 0);
+  --accent-foreground: oklch(0.1 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.2 0 0);
+  --ring: oklch(0.1 0 0);
+  --honey: oklch(0.55 0.18 70);
+  --olive: oklch(0.3 0.09 130);
+  --sage: oklch(0.45 0.07 150);
 }
 
-/* Modo lectura: quita decoración, prioriza el texto */
-.a11y-reading img,
-.a11y-reading video,
-.a11y-reading [data-decorative="true"] {
+/* 2. Modo Lectura: Optimizado para legibilidad y dislexia */
+html.a11y-reading [data-decorative="true"] {
   display: none !important;
 }
-.a11y-reading * {
-  background-image: none !important;
-  letter-spacing: 0.01em;
-  line-height: 1.8 !important;
+
+html.a11y-reading body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+  letter-spacing: 0.03em !important;
+  word-spacing: 0.06em !important;
+  line-height: 1.85 !important;
 }
 
-/* Detener animaciones */
-.a11y-no-motion *,
-.a11y-no-motion *::before,
-.a11y-no-motion *::after {
+html.a11y-reading img:not([alt=""]),
+html.a11y-reading svg {
+  filter: grayscale(80%) contrast(110%);
+}
+
+/* 3. Detener Todas las Animaciones */
+html.a11y-no-motion *,
+html.a11y-no-motion *::before,
+html.a11y-no-motion *::after {
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
+
+/* ==========================================================================
+   UTILIDADES & COMPONENTES
+   ========================================================================== */
 
 @utility container-page {
   width: 100%;

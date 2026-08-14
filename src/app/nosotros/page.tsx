@@ -1,16 +1,14 @@
-import Link from 'next/link';
 import { TEAM_2 } from '@/data/content';
 
 //Components
-import { Button } from '@/components/ui/button'
 import { whatsappLink } from '@/lib/site'
-import { Reveal } from '@/components/site/Reveal'
 import { Hero } from '@/components/site/Hero'
 import { ImageMarqueeCarousel } from '@/components/site/ImageMarqueeCarousel';
 import  VisionMisionValor  from '@/components/site/VisionMisionValor';
 import { CtaBanner } from '@/components/site/CTABanner';
 import AlcanceEstructura from '@/components/site/AlcanceEstructura';
 import NuestrosJovenes from '@/components/site/NuestrosJovenes';
+import { ComoAyudar } from '@/components/site/ComoAyudar';
 
 
 
@@ -43,7 +41,7 @@ export default function NosotrosPage() {
                     variant: 'default',
         }}
       />
-
+      {/* Identidad */}
       <VisionMisionValor />      
  
       {/* Nuestros Jóvenes - Historia & Esencia */}
@@ -52,59 +50,21 @@ export default function NosotrosPage() {
       {/* Alcance y Estructura */}
       <AlcanceEstructura/>
 
+      {/* Galería de fotos */}  
       <ImageMarqueeCarousel
         items={TEAM_2}
         ariaLabel="Fotos del equipo de PlanBee"
         objectFit="object-cover" 
       />
 
-        {/* CTA  */}
+      {/* CTA  */}
       <CtaBanner
             backgroundImageSrc="/images/backgrounds/colabora-bg.png"
             title="Cómo apoyar a los jóvenes de PlanBee"
             description="Tres caminos, un mismo resultado: más horas de trabajo digno."
 
       >
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              title: "Comprar productos",
-              text: "Cada compra sostiene horas de taller. También producimos regalos corporativos a medida.",
-              cta: "Ver catálogo",
-              to: "/catalogo" as const,
-            },
-            {
-              title: "Donar",
-              text: "Aportes puntuales o mensuales que financian capacitación, herramientas y materiales.",
-              cta: "Quiero donar",
-              href: whatsappLink("Hola PlanBee, quiero hacer una donación."),
-            },
-            {
-              title: "Voluntariado",
-              text: "Sumá tu tiempo o tu oficio: diseño, comunicación, logística o acompañamiento en el taller.",
-              cta: "Sumarme",
-              href: whatsappLink("Hola PlanBee, quiero sumarme como voluntario/a."),
-            },
-          ].map((card, index) => (
-            <Reveal key={card.title} delay={index * 0.08} className="h-full">
-              <article className="surface-card hover-lift flex h-full flex-col p-6">
-                <h3 className="font-display text-xl font-semibold text-honey">{card.title}</h3>
-                <p className="mt-2 flex-1 text-sm text-muted-foreground">{card.text}</p>
-                {card.to ? (
-                  <Button asChild className="mt-5 min-h-11">
-                    <Link href={card.to}>{card.cta}</Link>
-                  </Button>
-                ) : (
-                  <Button asChild className="mt-5 min-h-11">
-                    <a href={card.href} target="_blank" rel="noreferrer">
-                      {card.cta}
-                    </a>
-                  </Button>
-                )}
-              </article>
-            </Reveal>
-          ))}
-        </div>
+        <ComoAyudar/>
       </CtaBanner>
 
     </section>

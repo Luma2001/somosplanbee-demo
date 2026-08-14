@@ -10,7 +10,7 @@ export const SITE = {
   description:
     "PlanBee fabrica productos artesanales y sustentables con materiales recuperados, generando empleo inclusivo real. Catálogo, regalos corporativos e impacto social.",
   /** Número en formato internacional sin signos, para enlaces wa.me */
-  whatsapp: "",
+  whatsapp: "5492617076648",
   email: "hola@somosplanbee.com",
   city: "Mendoza, Argentina",
   address: "Montecaseros 1486, Ciudad de Mendoza",

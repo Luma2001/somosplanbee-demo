@@ -12,7 +12,7 @@ const NuestrosJovenes = () => {
                 Auténticos, creativos y con mucho corazón
               </h2>
               <p className="text-lg pt-4 leading-relaxed text-muted-foreground">
-                Detrás de PlanBee hay personas creativas, inquietas y con muchas ganas de trabajar, que creen que las pequeñas ideas pueden generar grandes cambios. Nos gusta trabajar con las manos, crear redes y compartir lo que vamos aprendiendo en el camino.
+                Detrás de PlanBee hay personas creativas, inquietas y con muchas ganas de trabajar, que creen que las pequeñas ideas pueden generar grandes cambios.
               </p>
               <p className="text-lg pt-4 leading-relaxed text-muted-foreground">
                 Nos gusta trabajar con las manos, crear redes y compartir lo que vamos aprendiendo en el camino.
