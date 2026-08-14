@@ -1,20 +1,21 @@
 import { Sparkles } from 'lucide-react';
 
-
 interface BadgeTextProps {
   badgeText?: string;
+  className?: string;
 }
 
-const BadgeText = ({ badgeText }: BadgeTextProps) => {
+export function BadgeText({ badgeText, className = '' }: BadgeTextProps) {
+  if (!badgeText) return null;
+
   return (
-    <div>
-            {badgeText && (
-            <p className="inline-flex items-center gap-2 bg-honey-deep px-4 py-1.5 text-lg font-semibold text-primary">
-              <Sparkles className="size-4" aria-hidden="true" />
-              {badgeText}
-            </p>)}
-    </div>
-  )
+    <span
+      className={`inline-flex w-fit items-center gap-1.5 rounded-sm border border-honey-deep/20 bg-honey/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-honey-deep select-none ${className}`}
+    >
+      <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
+      {badgeText}
+    </span>
+  );
 }
 
-export default BadgeText
+export default BadgeText;

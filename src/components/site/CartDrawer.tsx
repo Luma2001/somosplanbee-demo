@@ -16,6 +16,7 @@ function useIsHydrated() {
   );
 }
 
+/** Panel lateral deslizante del carrito de compras (Drawer). */
 export function CartDrawer() {
   const { cart, isOpen, setIsOpen, removeFromCart, updateQuantity, clearCart } = useCartStore();
   const [customNotes, setCustomNotes] = useState('');
@@ -45,7 +46,7 @@ export function CartDrawer() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm transition-opacity"
+      className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs transition-opacity"
       role="dialog"
       aria-modal="true"
       aria-labelledby="cart-heading"
@@ -53,32 +54,32 @@ export function CartDrawer() {
       {/* Backdrop click para cerrar */}
       <div className="absolute inset-0" onClick={() => setIsOpen(false)} aria-hidden="true" />
 
-      <aside className="relative z-10 flex h-full w-full max-w-md flex-col bg-[#FDFBF7] p-6 shadow-2xl">
+      <aside className="relative z-10 flex h-full w-full max-w-md flex-col bg-card p-6 shadow-var(--shadow-lift) text-card-foreground">
         {/* Header del Carrito */}
-        <div className="flex items-center justify-between border-b border-[#F3EFE6] pb-4">
+        <div className="flex items-center justify-between border-b border-border pb-4">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-[#E2B13C]" />
-            <h2 id="cart-heading" className="text-xl font-bold text-[#222222]">
+            <ShoppingBag className="size-5 text-honey-deep" />
+            <h2 id="cart-heading" className="font-display text-xl font-bold text-foreground">
               Tu Pedido ({totalItems})
             </h2>
           </div>
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Cerrar pedido"
-            className="rounded-full p-2 text-gray-500 hover:bg-[#F3EFE6] hover:text-black focus:outline-none"
+            className="rounded-full p-2 text-muted-foreground hover:bg-secondary hover:text-foreground focus:outline-hidden cursor-pointer"
           >
-            <X className="h-5 w-5" />
+            <X className="size-5" />
           </button>
         </div>
 
         {/* Lista de productos */}
         {cart.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-            <ShoppingBag className="h-16 w-16 text-gray-300" />
-            <p className="text-lg font-medium text-gray-600">Tu pedido está vacío</p>
+            <ShoppingBag className="size-16 text-muted-foreground/40" />
+            <p className="text-lg font-medium text-muted-foreground">Tu pedido está vacío</p>
             <button
               onClick={() => setIsOpen(false)}
-              className="rounded-full bg-[#E2B13C] px-6 py-2.5 font-semibold text-black hover:bg-[#C99B2D]"
+              className="rounded-full bg-honey-deep px-6 py-2.5 font-semibold text-primary hover:bg-honey-deep/90 transition-all cursor-pointer"
             >
               Explorar Catálogo
             </button>
@@ -89,9 +90,9 @@ export function CartDrawer() {
               {cart.map((item) => (
                 <div
                   key={item.code}
-                  className="flex items-center gap-4 rounded-xl border border-[#F3EFE6] bg-white p-3 shadow-xs"
+                  className="flex items-center gap-4 rounded-2xl border border-border bg-background p-3 shadow-xs"
                 >
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-secondary">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -102,21 +103,21 @@ export function CartDrawer() {
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="font-semibold text-[#222222] text-sm">{item.name}</h3>
-                    <p className="text-xs text-gray-500">{item.code}</p>
+                    <h3 className="font-semibold text-foreground text-sm">{item.name}</h3>
+                    <p className="text-xs text-muted-foreground">{item.code}</p>
 
                     <div className="mt-2 flex items-center gap-2">
                       <button
                         onClick={() => updateQuantity(item.code, item.quantity - 1)}
-                        className="h-6 w-6 rounded bg-[#F3EFE6] text-xs font-bold hover:bg-gray-300"
+                        className="flex size-6 items-center justify-center rounded bg-secondary text-xs font-bold text-secondary-foreground hover:bg-muted cursor-pointer"
                         aria-label={`Reducir cantidad de ${item.name}`}
                       >
                         -
                       </button>
-                      <span className="text-xs font-bold">{item.quantity}</span>
+                      <span className="text-xs font-bold text-foreground">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.code, item.quantity + 1)}
-                        className="h-6 w-6 rounded bg-[#F3EFE6] text-xs font-bold hover:bg-gray-300"
+                        className="flex size-6 items-center justify-center rounded bg-secondary text-xs font-bold text-secondary-foreground hover:bg-muted cursor-pointer"
                         aria-label={`Aumentar cantidad de ${item.name}`}
                       >
                         +
@@ -126,19 +127,19 @@ export function CartDrawer() {
 
                   <button
                     onClick={() => removeFromCart(item.code)}
-                    className="p-1 text-gray-400 hover:text-red-500"
+                    className="p-1 text-muted-foreground hover:text-destructive cursor-pointer"
                     aria-label={`Eliminar ${item.name}`}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="size-4" />
                   </button>
                 </div>
               ))}
             </div>
 
             {/* Notas opcionales & Checkout por WhatsApp */}
-            <div className="border-t border-[#F3EFE6] pt-4 space-y-4">
+            <div className="border-t border-border pt-4 space-y-4">
               <div>
-                <label htmlFor="custom-notes" className="block text-xs font-medium text-gray-700 mb-1">
+                <label htmlFor="custom-notes" className="block text-xs font-medium text-foreground mb-1">
                   ¿Quieres agregar el logo de tu empresa o alguna nota?
                 </label>
                 <textarea
@@ -147,7 +148,7 @@ export function CartDrawer() {
                   value={customNotes}
                   onChange={(e) => setCustomNotes(e.target.value)}
                   placeholder="Ej: Necesitamos 20 unidades grabadas con el logo..."
-                  className="w-full rounded-lg border border-gray-300 p-2 text-xs focus:border-[#E2B13C] focus:outline-none"
+                  className="w-full rounded-xl border border-input bg-background p-2.5 text-xs text-foreground focus:border-olive focus:outline-hidden"
                 />
               </div>
 
@@ -157,14 +158,14 @@ export function CartDrawer() {
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 font-bold text-white hover:bg-[#20bd5a] transition-all shadow-md"
               >
-                <MessageCircle className="h-5 w-5 fill-current" />
+                <MessageCircle className="size-5 fill-current" />
                 Pedir Presupuesto por WhatsApp
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="size-4" />
               </a>
 
               <button
                 onClick={clearCart}
-                className="w-full text-center text-xs text-gray-400 hover:underline"
+                className="w-full text-center text-xs text-muted-foreground hover:underline cursor-pointer"
               >
                 Vaciar pedido
               </button>

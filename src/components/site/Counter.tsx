@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useInView, useReducedMotion } from 'framer-motion';
+import { useInView, useReducedMotion } from 'motion/react';
+import { useA11y } from '@/lib/a11y';
 
 interface CounterProps {
   value: number;
@@ -12,15 +13,18 @@ interface CounterProps {
 export function Counter({ value, suffix = '', label }: CounterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
-  const reduced = useReducedMotion();
+  const systemReducedMotion = useReducedMotion();
+  const a11y = useA11y();
+
+  // Detener animación si el SO o el widget de accesibilidad lo indican
+  const shouldReduceMotion = systemReducedMotion || a11y.noMotion;
+
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     if (!inView) return;
 
-    // Si el usuario prefiere movimiento reducido, actualizamos en el siguiente frame
-    // para evitar el setState síncrono al evaluar el efecto.
-    if (reduced) {
+    if (shouldReduceMotion) {
       const timer = requestAnimationFrame(() => setDisplay(value));
       return () => cancelAnimationFrame(timer);
     }
@@ -38,29 +42,31 @@ export function Counter({ value, suffix = '', label }: CounterProps) {
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [inView, reduced, value]);
+  }, [inView, shouldReduceMotion, value]);
 
-  // Si reducedMotion está activo y ya entró en vista, mostramos 'value' directamente
-  const currentValue = reduced && inView ? value : display;
+  const currentValue = shouldReduceMotion && inView ? value : display;
 
   return (
     <div
       ref={ref}
-      className="rounded-2xl border border-border/80 bg-card px-6 py-8 text-center shadow-xs transition-shadow hover:shadow-md"
+      className="surface-card flex flex-col items-center justify-center p-6 text-center transition-shadow hover:shadow-var(--shadow-lift)"
     >
+      {/* Número visual animado con dígitos monoespaciados */}
       <p
-        className="font-display text-4xl font-semibold text-olive md:text-5xl"
+        className="font-display text-4xl font-bold tabular-nums text-olive md:text-5xl"
         aria-hidden="true"
       >
         {currentValue.toLocaleString('es-AR')}
         {suffix}
       </p>
 
+      {/* Lectura accesible consolidada para lectores de pantalla */}
       <p className="sr-only">
         {value.toLocaleString('es-AR')}
         {suffix} {label}
       </p>
 
+      {/* Etiqueta descriptiva */}
       <p
         className="mt-2 text-sm font-medium tracking-wide text-muted-foreground"
         aria-hidden="true"
@@ -70,3 +76,5 @@ export function Counter({ value, suffix = '', label }: CounterProps) {
     </div>
   );
 }
+
+export default Counter;

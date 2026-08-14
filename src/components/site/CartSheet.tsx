@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { Minus, Plus, Trash2, Sparkles } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -26,7 +26,6 @@ export function CartSheet({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  // Mapeamos state.cart a items para mantener la consistencia del resto del componente
   const items = useCartStore((state) => state.cart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
@@ -60,9 +59,11 @@ export function CartSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="flex w-full flex-col gap-0 sm:max-w-md">
+      <SheetContent side="right" className="flex w-full flex-col gap-0 bg-card text-card-foreground sm:max-w-md">
         <SheetHeader className="px-1 pt-2 pb-4 border-b border-border">
-          <SheetTitle className="font-display text-xl">Tu pedido</SheetTitle>
+          <SheetTitle className="font-display text-xl font-bold text-foreground">
+            Tu pedido
+          </SheetTitle>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-1 py-4">
@@ -73,49 +74,52 @@ export function CartSheet({
           ) : (
             <ul className="space-y-3">
               {items.map((item: CartItem) => (
-                <li key={item.code} className="flex gap-3 rounded-2xl border border-border p-3">
-                  <div className="relative size-18 shrink-0 overflow-hidden rounded-xl bg-muted">
+                <li
+                  key={item.code}
+                  className="flex gap-3 rounded-2xl border border-border bg-background p-3 shadow-xs"
+                >
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-secondary">
                     <Image
                       src={item.image}
                       alt={`Producto ${item.name}`}
                       fill
-                      sizes="72px"
+                      sizes="64px"
                       className="object-cover"
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium">{item.name}</p>
+                    <p className="truncate font-semibold text-foreground text-sm">{item.name}</p>
                     <p className="truncate text-xs text-muted-foreground">CÓD: {item.code}</p>
                     <div className="mt-2 flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="icon"
-                        className="min-h-9 min-w-9"
+                        className="size-8 rounded-lg border-border"
                         onClick={() => updateQuantity(item.code, item.quantity - 1)}
                         aria-label={`Quitar una unidad de ${item.name}`}
                       >
-                        <Minus aria-hidden="true" className="h-4 w-4" />
+                        <Minus aria-hidden="true" className="size-3.5" />
                       </Button>
-                      <span className="w-8 text-center tabular-nums text-sm font-medium" aria-live="polite">
+                      <span className="w-8 text-center text-sm font-semibold tabular-nums" aria-live="polite">
                         {item.quantity}
                       </span>
                       <Button
                         variant="outline"
                         size="icon"
-                        className="min-h-9 min-w-9"
+                        className="size-8 rounded-lg border-border"
                         onClick={() => updateQuantity(item.code, item.quantity + 1)}
                         aria-label={`Agregar una unidad de ${item.name}`}
                       >
-                        <Plus aria-hidden="true" className="h-4 w-4" />
+                        <Plus aria-hidden="true" className="size-3.5" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="ml-auto min-h-9 min-w-9 text-muted-foreground hover:text-destructive"
+                        className="ml-auto size-8 text-muted-foreground hover:text-destructive"
                         onClick={() => removeFromCart(item.code)}
                         aria-label={`Eliminar ${item.name} del pedido`}
                       >
-                        <Trash2 aria-hidden="true" className="h-4 w-4" />
+                        <Trash2 aria-hidden="true" className="size-4" />
                       </Button>
                     </div>
                   </div>
@@ -126,9 +130,12 @@ export function CartSheet({
 
           {items.length > 0 && (
             <form className="mt-6 space-y-4" onSubmit={handleCheckout} noValidate>
-              <p className="rounded-2xl bg-accent px-4 py-3 text-sm font-medium text-accent-foreground">
-                Con tu compra estás garantizando {hours} horas de empleo inclusivo este mes.
-              </p>
+              <div className="flex items-center gap-2 rounded-2xl border border-honey-deep/20 bg-accent p-3.5 text-sm font-medium text-accent-foreground">
+                <Sparkles className="size-4 shrink-0 text-honey-deep" aria-hidden="true" />
+                <p>
+                  Con tu compra estás garantizando <strong className="font-bold text-foreground">{hours} horas</strong> de empleo inclusivo este mes.
+                </p>
+              </div>
 
               <Field
                 id="cart-name"
@@ -158,19 +165,29 @@ export function CartSheet({
               />
 
               <div className="space-y-1.5">
-                <Label htmlFor="cart-notes">Observaciones (opcional)</Label>
+                <Label htmlFor="cart-notes" className="text-foreground">Observaciones (opcional)</Label>
                 <Textarea
                   id="cart-notes"
                   value={customer.notes}
                   maxLength={500}
                   onChange={(e) => setCustomer((c) => ({ ...c, notes: e.target.value }))}
+                  className="rounded-xl border-input bg-background"
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full min-h-12 font-semibold">
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full min-h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-xs"
+              >
                 {whatsappCheckout.label}
               </Button>
-              <Button type="button" variant="ghost" className="w-full min-h-11" onClick={clearCart}>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full min-h-11 text-muted-foreground hover:text-foreground"
+                onClick={clearCart}
+              >
                 Vaciar carrito
               </Button>
             </form>
@@ -200,7 +217,7 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} className="text-foreground">{label}</Label>
       <Input
         id={id}
         type={type}
@@ -210,6 +227,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${id}-error` : undefined}
+        className="rounded-xl border-input bg-background"
         required
       />
       {error && (

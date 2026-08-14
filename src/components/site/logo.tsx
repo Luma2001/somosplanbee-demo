@@ -7,14 +7,17 @@ interface LogoProps {
 }
 
 export function Logo({ className = '', variant = 'default' }: LogoProps) {
-  const logoSrc = variant === 'white' ? '/images/logo/logo-white.png' : '/images/logo/logohorizontal.png';
+  const logoSrc =
+    variant === 'white'
+      ? '/images/logo/logo-white.png'
+      : '/images/logo/logohorizontal.png';
 
   return (
     <Link
       href="/"
-      className={`inline-flex items-center gap-2 transition-opacity hover:opacity-90 ${className}`}
+      aria-label="PlanBee - Ir a la página principal"
+      className={`inline-flex min-h-11 min-w-11 items-center rounded-lg transition-opacity hover:opacity-90 ${className}`}
     >
-      
       <Image
         src={logoSrc}
         alt="PlanBee — Impacto Social & Upcycling"
@@ -26,3 +29,5 @@ export function Logo({ className = '', variant = 'default' }: LogoProps) {
     </Link>
   );
 }
+
+export default Logo;

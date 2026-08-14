@@ -11,7 +11,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { CartSheet } from '@/components/site/CartSheet';
 import { Logo } from './logo';
 
-// Subscriber genérico para detectar hidratación en cliente
+// Subscriber genérico para detectar hidratación en cliente sin cascading renders
 const emptySubscribe = () => () => {};
 
 export function Header() {
@@ -19,7 +19,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
 
-  // Detecta si estamos en el cliente de forma reactiva sin triggering de useEffect
+  // Detecta si estamos en el cliente de forma reactiva y segura
   const isClient = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -36,7 +36,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <div className="container-page flex h-18 items-center justify-between gap-4 py-3">
         
-        <Logo/>
+        <Logo />
         
         {/* Navegación Desktop */}
         <nav aria-label="Navegación principal" className="hidden items-center gap-1 md:flex">
@@ -48,8 +48,9 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-olive ${
-                  isActive ? 'bg-secondary text-foreground' : 'text-muted-foreground'
+                aria-current={isActive ? 'page' : undefined}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary hover:text-foreground ${
+                  isActive ? 'bg-secondary text-foreground font-semibold' : 'text-muted-foreground'
                 }`}
               >
                 {link.label}
@@ -62,14 +63,14 @@ export function Header() {
           {/* Botón del Carrito */}
           <Button
             variant="outline"
-            className="relative min-h-11 rounded-full px-4"
+            className="relative min-h-11 rounded-full border-border bg-card px-4 text-foreground hover:bg-secondary shadow-2xs"
             onClick={() => setCartOpen(true)}
-            aria-label={`Abrir carrito, ${displayTotal} productos`}
+            aria-label={`Abrir carrito, ${displayTotal} ${displayTotal === 1 ? 'producto' : 'productos'}`}
           >
-            <ShoppingBag aria-hidden="true" className="size-4" />
-            <span className="hidden sm:inline">Carrito</span>
+            <ShoppingBag aria-hidden="true" className="size-4 text-olive" />
+            <span className="hidden sm:inline font-medium">Carrito</span>
             <span
-              className="ml-1 inline-flex min-w-6 items-center justify-center rounded-full bg-honey px-2 text-xs font-semibold text-graphite"
+              className="ml-1 inline-flex min-w-6 items-center justify-center rounded-full bg-gold px-2 text-xs font-bold text-graphite"
               aria-hidden="true"
             >
               {displayTotal}
@@ -82,14 +83,16 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="min-h-11 min-w-11 md:hidden"
+                className="min-h-11 min-w-11 md:hidden text-foreground hover:bg-secondary"
                 aria-label="Abrir menú de navegación"
               >
                 <Menu aria-hidden="true" className="size-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetTitle className="px-4 pt-4 font-display text-lg">Navegación</SheetTitle>
+            <SheetContent side="right" className="w-72 bg-card text-card-foreground border-border">
+              <SheetTitle className="px-4 pt-4 font-display text-lg font-bold text-foreground">
+                Navegación
+              </SheetTitle>
               <nav aria-label="Navegación móvil" className="mt-4 flex flex-col gap-1 px-3 pb-6">
                 {NAV_LINKS.map((link) => {
                   const isActive =
@@ -99,9 +102,10 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
+                      aria-current={isActive ? 'page' : undefined}
                       onClick={() => setMobileOpen(false)}
                       className={`rounded-xl px-4 py-3 text-base font-medium transition-colors hover:bg-secondary ${
-                        isActive ? 'bg-secondary text-foreground' : 'text-muted-foreground'
+                        isActive ? 'bg-secondary text-foreground font-semibold' : 'text-muted-foreground'
                       }`}
                     >
                       {link.label}
@@ -118,3 +122,5 @@ export function Header() {
     </header>
   );
 }
+
+export default Header;

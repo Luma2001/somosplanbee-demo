@@ -1,28 +1,42 @@
-import { BENEFITS } from '@/data/content'
-import { Reveal } from './Reveal'
+import { BENEFITS } from '@/data/content';
+import { Reveal } from './Reveal';
 
 export const Benefits = () => {
   return (
-              <div className="my-8">
-                    <Reveal>
-                    <h3 className="font-display text-3xl font-semibold md:text-4xl">
-                        Beneficios de una compra consciente:<br></br>Impulsá tus metas de Sostenibilidad e Inclusión (ESG)
-                    </h3>
-                    </Reveal>
-                    <div className="mt-14 grid gap-6 sm:grid-cols-2">
-                    {BENEFITS.map((benefit, index) => (
-                        <Reveal key={benefit.title} delay={index * 0.07} className="h-full">
-                        <article className="surface-card hover-lift h-full rounded-2xl border border-border/70 bg-card p-6 shadow-2xs transition-all">
-                            <h3 className="font-display text-xl font-semibold text-foreground">
-                            {benefit.title}
-                            </h3>
-                            <p className="mt-2 text-muted-foreground leading-relaxed">
-                            {benefit.text}
-                            </p>
-                        </article>
-                        </Reveal>
-                    ))}
-                    </div>
-              </div>
-  )
-}
+    <section className="my-12 md:my-16">
+      {/* Título de Sección */}
+      <Reveal>
+        <div className="max-w-3xl">
+          <h2 className="font-display text-3xl font-semibold text-foreground md:text-4xl text-balance-tight">
+            Beneficios de una compra consciente:
+            <span className="block mt-1 font-normal text-muted-foreground">
+              Impulsá tus metas de Sostenibilidad e Inclusión (ESG)
+            </span>
+          </h2>
+        </div>
+      </Reveal>
+
+      {/* Grilla de Beneficios */}
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 items-stretch">
+        {BENEFITS.map((benefit, index) => (
+          <Reveal
+            key={benefit.title}
+            delay={index * 0.07}
+            className="h-full flex flex-col"
+          >
+            <article className="surface-card hover-lift flex flex-1 flex-col justify-start p-6 sm:p-8">
+              <h3 className="font-display text-xl font-semibold text-foreground">
+                {benefit.title}
+              </h3>
+              <p className="mt-2 text-sm sm:text-base leading-relaxed text-muted-foreground">
+                {benefit.text}
+              </p>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Benefits;
