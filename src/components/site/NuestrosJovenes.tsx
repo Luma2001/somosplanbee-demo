@@ -1,43 +1,56 @@
-import { Reveal } from "@/components/site/Reveal"
-import { ImageMarqueeCarousel } from "./ImageMarqueeCarousel"
-import { TEAM_1 } from "@/data/content"
+import { Reveal } from '@/components/site/Reveal';
+import { ImageMarqueeCarousel } from '@/components/site/ImageMarqueeCarousel';
+import { TEAM_1 } from '@/data/content';
 
-const NuestrosJovenes = () => {
+export const NuestrosJovenes = () => {
   return (
-      <section className="container-page">
-        <Reveal>
-          <div className="surface-card relative overflow-hidden rounded-3xl p-8 md:p-12 flex flex-row flex-wrap gap-4 justify-between">
-            <div className="max-w-md space-y-4">
-              <h2 className="font-display text-2xl font-semibold md:text-3xl">
+    <section
+      aria-label="Sobre el equipo de jóvenes de PlanBee"
+      className="container-page py-12 md:py-16"
+    >
+      <Reveal>
+        <div className="surface-card relative overflow-hidden rounded-3xl p-8 sm:p-10 md:p-12">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            
+            {/* Columna de Texto */}
+            <div className="space-y-4">
+              <h2 className="font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl text-balance-tight">
                 Auténticos, creativos y con mucho corazón
               </h2>
-              <p className="text-lg pt-4 leading-relaxed text-muted-foreground">
-                Detrás de PlanBee hay personas creativas, inquietas y con muchas ganas de trabajar, que creen que las pequeñas ideas pueden generar grandes cambios.
-              </p>
-              <p className="text-lg pt-4 leading-relaxed text-muted-foreground">
-                Nos gusta trabajar con las manos, crear redes y compartir lo que vamos aprendiendo en el camino.
-              </p>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                No somos perfectos (ni lo buscamos), pero sí auténticos. Acá estamos, creciendo de a poco, con trabajo en equipo y mucho corazón.
-              </p>
+              
+              <div className="space-y-4 text-base sm:text-lg leading-relaxed text-muted-foreground">
+                <p>
+                  Detrás de PlanBee hay personas creativas, inquietas y con muchas
+                  ganas de trabajar, que creen que las pequeñas ideas pueden generar
+                  grandes cambios.
+                </p>
+                <p>
+                  Nos gusta trabajar con las manos, crear redes y compartir lo que
+                  vamos aprendiendo en el camino.
+                </p>
+                <p>
+                  No somos perfectos (ni lo buscamos), pero sí auténticos. Acá
+                  estamos, creciendo de a poco, con trabajo en equipo y mucho
+                  corazón.
+                </p>
+              </div>
             </div>
-            <div className="max-w-lg">
-                <ImageMarqueeCarousel
+
+            {/* Columna de Galería (min-w-0 previene flex-blowout) */}
+            <div className="w-full min-w-0 overflow-hidden">
+              <ImageMarqueeCarousel
                 items={TEAM_1}
-                ariaLabel="Fotos del equipo de PlanBee"
-                itemClassName="h-80 w-60 md:h-96 md:w-72" // Contenedor vertical (retrato)
-                objectFit="object-top" 
-                />
+                ariaLabel="Fotos del equipo y jóvenes de PlanBee"
+                itemClassName="h-80 w-60 sm:h-96 sm:w-72"
+                objectFit="object-top"
+              />
             </div>
+
           </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+};
 
-        </Reveal>
-
-
-
-
-      </section>
-  )
-}
-
-export default NuestrosJovenes
+export default NuestrosJovenes;

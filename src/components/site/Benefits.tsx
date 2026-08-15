@@ -3,7 +3,7 @@ import { Reveal } from './Reveal';
 
 export const Benefits = () => {
   return (
-    <section className="my-12 md:my-16">
+    <section className="py-2 md:py-4">
       {/* Título de Sección */}
       <Reveal>
         <div className="max-w-3xl">

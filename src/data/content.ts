@@ -41,10 +41,10 @@ export interface Metric {
 }
 
 export const METRICS: readonly Metric[] = [
-  { label: 'Personas integradas', value: 24 },
+  { label: 'Personas integradas', value: 9 },
   { label: 'Horas de taller', value: 12400, suffix: '+' },
   { label: 'Productos fabricados', value: 8600, suffix: '+' },
-  { label: 'Historias reales', value: 24 },
+  { label: 'Historias reales', value: 9 },
 ] as const;
 
 //----------------------------------
@@ -52,6 +52,7 @@ export const METRICS: readonly Metric[] = [
 export interface Partner {
   name: string;
   logoSrc: string;
+  scaleClass?: string;
 }
 
 export const PARTNERS: readonly Partner[] = [
@@ -78,6 +79,7 @@ export const PARTNERS: readonly Partner[] = [
     {
     name: 'La Gloria',
     logoSrc: '/images/partners/lagloria.png',
+    scaleClass: 'scale-180',
   },
   {
     name: 'UNCUYO',
@@ -90,18 +92,47 @@ export const PARTNERS: readonly Partner[] = [
   {
     name: 'Mujeres',
     logoSrc: '/images/partners/mujeres.png',
+    scaleClass: 'scale-180',
   },
   {
     name: 'Economía Social',
     logoSrc: '/images/partners/economia-social.png',
+    scaleClass: 'scale-180',
   },
   {
     name: 'De mi campo',
     logoSrc: '/images/partners/de-mi-campo.png',
+    scaleClass: 'scale-180',
   },
   {
     name: 'Cosa Nuestra',
     logoSrc: '/images/partners/cosa-nuestra.png',
+    scaleClass: 'scale-180',
+  },
+  {
+    name: 'El Arca',
+    logoSrc: '/images/partners/elarca.png',
+    scaleClass: 'scale-180',
+  },
+  {
+    name: 'Martin Muttini',
+    logoSrc: '/images/partners/muttini.png',
+    scaleClass: 'scale-180',
+  },
+    {
+    name: 'FAD',
+    logoSrc: '/images/partners/fad.png',
+    scaleClass: 'scale-180',
+  },
+    {
+    name: 'Alojate',
+    logoSrc: '/images/partners/alojate.png',
+    scaleClass: 'scale-180',
+  },
+    {
+    name: 'Entrepisos',
+    logoSrc: '/images/partners/entrepisos.png',
+    scaleClass: 'scale-180',
   },
 ] as const;
 

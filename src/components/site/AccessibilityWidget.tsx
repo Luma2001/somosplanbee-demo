@@ -34,7 +34,7 @@ export function AccessibilityWidget() {
   if (!isHydrated) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 print:hidden">
+    <div className="fixed bottom-9 right-4 z-50 print:hidden">
       {open && (
         <div
           id="a11y-panel"
@@ -118,7 +118,7 @@ export function AccessibilityWidget() {
 
       <Button
         size="lg"
-        className="min-h-14 min-w-14 rounded-full shadow-var(--shadow-lift) bg-primary text-primary-foreground hover:bg-primary/90"
+        className="min-h-14 min-w-14 rounded-full shadow-var(--shadow-lift) bg-primary/90 text-primary-foreground hover:bg-primary/90"
         aria-expanded={open}
         aria-controls="a11y-panel"
         onClick={() => setOpen((v) => !v)}

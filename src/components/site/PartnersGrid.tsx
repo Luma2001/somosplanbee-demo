@@ -2,54 +2,68 @@ import Image from 'next/image';
 import { PARTNERS } from '@/data/content';
 import { Reveal } from '@/components/site/Reveal';
 
-
+export interface PartnerItem {
+  name: string;
+  logoSrc: string;
+  scaleClass?: string; // Permite calibración óptica individual (ej: 'scale-125')
+}
 
 export function PartnersGrid() {
   return (
-    <section className="w-full bg-secondary/30 py-8 md:py-10">
+    <section
+      aria-label="Empresas y organizaciones aliadas que confían en PlanBee"
+      className="w-full bg-secondary/30 py-12 md:py-16 border-y border-border/40"
+    >
       <div className="container-page">
+        {/* Encabezado */}
         <Reveal>
-          <div className="flex flex-col items-center text-center">
-
-              <h3 className="font-display text-3xl font-semibold md:text-4xl">
-                Empresas que Confían<br></br> en Nuestro Impacto
-              </h3>
-              
-              
-
+          <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl text-balance-tight">
+              Empresas que Confían en Nuestro Impacto
+            </h2>
+            <div
+              className="my-5 h-1 w-16 rounded-full bg-honey"
+              aria-hidden="true"
+            />
           </div>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:gap-8 items-center justify-items-center">
+        {/* Grilla Semántica de Aliados */}
+        <Reveal className="mt-8">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gap-6 items-stretch justify-items-stretch">
             {PARTNERS.map((partner) => (
-              <div
-                key={partner.name}
-                className="group flex h-24 w-full items-center justify-center rounded-xl bg-background/50 p-4 transition-all duration-300 hover:bg-background hover:shadow-sm"
-              >
-                <div className="relative h-12 w-36 grayscale opacity-80 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-150">
-                  <Image
-                    src={partner.logoSrc}
-                    alt={`Logo de ${partner.name}`}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-                  />
+              <li key={partner.name} className="flex">
+                <div className="group flex h-24 sm:h-28 w-full items-center justify-center rounded-2xl border border-border/70 bg-card p-4 sm:p-5 shadow-2xs transition-all duration-300 hover:border-olive/50 hover:bg-background hover:shadow-soft">
+                  <div className="relative flex h-full w-full items-center justify-center grayscale opacity-80 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-125 motion-reduce:group-hover:scale-100">
+                    <div
+                      className={`relative h-12 sm:h-14 w-full max-w-40 flex items-center justify-center ${
+                        partner.scaleClass || ''
+                      }`}
+                    >
+                      <Image
+                        src={partner.logoSrc}
+                        alt={`Logo de ${partner.name}`}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 30vw"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </Reveal>
 
-        <Reveal className="mt-12">
-
-          <p className="text-xs font-semibold uppercase tracking-wider text-center text-muted-foreground">
-            Gracias por Marcar la Diferencia y formar parte de este cambio.
+        {/* Mensaje de Agradecimiento */}
+        <Reveal className="mt-10 md:mt-12">
+          <p className="text-center text-xs sm:text-sm font-medium tracking-wide text-muted-foreground">
+            Gracias por marcar la diferencia y formar parte de este cambio.
           </p>
-
         </Reveal>
-
       </div>
     </section>
   );
 }
+
+export default PartnersGrid;

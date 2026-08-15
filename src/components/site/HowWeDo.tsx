@@ -27,7 +27,7 @@ const METODOLOGIAS = [
 
 export const HowWeDo = () => {
   return (
-    <section className="container-page py-12 md:py-16">
+    <section className="container-page py-2 md:py-4">
       {/* Encabezado */}
       <Reveal>
         <div className="mx-auto max-w-2xl text-center">

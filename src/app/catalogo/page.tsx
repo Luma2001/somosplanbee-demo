@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { CATEGORIES, PRODUCTS, type CategorySlug } from '@/data/products';
 import { Hero } from '@/components/site/Hero';
 
-export default function Catalogo() {
+export default function CatalogoPage() {
   const [category, setCategory] = useState<CategorySlug | 'todos'>('todos');
   const [query, setQuery] = useState('');
 
@@ -25,36 +25,47 @@ export default function Catalogo() {
   }, [category, query]);
 
   return (
-    <div className="flex flex-col gap-10 pb-10 md:gap-14">
-
-      {/* Hero */}   
-      <Hero 
+    <div className="flex flex-col gap-6 pb-10 md:gap-8 md:pb-12">
+      {/* Hero Principal */}
+      <Hero
         variant="background"
-        title='Catálogo de productos'
-        description='Diseñamos y creamos productos únicos, elaborados en nuestro taller por los jóvenes. Cada objeto cuenta una historia y refleja una habilidad, generando recursos que impulsan nuestros proyectos.'
-        bgAlt='Nuestro jóvenes exhibiendo sus productos fabricados en PlanBee'
-        bgImageUrl='/images/backgrounds/productos-bg.png'
-        showDivider1 = { false }
+        title="Catálogo de productos"
+        description="Diseñamos y creamos productos únicos, elaborados en nuestro taller por los jóvenes. Cada objeto cuenta una historia y refleja una habilidad, generando recursos que impulsan nuestros proyectos."
+        bgAlt="Jóvenes de PlanBee elaborando y exhibiendo productos sustentables"
+        bgImageUrl="/images/backgrounds/productos-bg.png"
+        showDivider1={false}
       />
-   
-      <div className='container-page py-4'>
-        {/* Búsqueda y Filtros */}
-        <div className="mt-10 flex flex-col gap-4">
-          <div className="max-w-sm">
-            <Label htmlFor="buscar">Buscar producto</Label>
+
+      <div className="container-page">
+        {/* Controles de Búsqueda y Filtros */}
+        <section
+          aria-label="Filtros y búsqueda de catálogo"
+          className="flex flex-col gap-6"
+        >
+          <div className="max-w-md">
+            <Label htmlFor="buscar-producto" className="text-foreground">
+              Buscar producto
+            </Label>
             <Input
-              id="buscar"
+              id="buscar-producto"
               type="search"
               value={query}
               maxLength={60}
-              placeholder="Ej: tote, billetera, madera"
+              placeholder="Ej: tote, billetera, madera..."
               onChange={(e) => setQuery(e.target.value)}
               className="mt-1.5"
             />
           </div>
 
-          <div role="group" aria-label="Filtrar por categoría" className="flex flex-wrap gap-2">
-            <FilterChip active={category === 'todos'} onClick={() => setCategory('todos')}>
+          <div
+            role="group"
+            aria-label="Filtrar por categoría"
+            className="flex flex-wrap gap-2.5"
+          >
+            <FilterChip
+              active={category === 'todos'}
+              onClick={() => setCategory('todos')}
+            >
               Todos
             </FilterChip>
             {CATEGORIES.map((c) => (
@@ -67,21 +78,33 @@ export default function Catalogo() {
               </FilterChip>
             ))}
           </div>
+        </section>
+
+        {/* Región de estado para lectores de pantalla */}
+        <div className="mt-8 flex items-center justify-between">
+          <p
+            className="text-sm font-medium text-muted-foreground"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {products.length === 0
+              ? 'No se encontraron productos'
+              : `${products.length} ${
+                  products.length === 1
+                    ? 'producto encontrado'
+                    : 'productos encontrados'
+                }`}
+          </p>
         </div>
 
-        {/* Contador de resultados */}
-        <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
-          {products.length} {products.length === 1 ? 'producto' : 'productos'}
-        </p>
-
-        {/* Grilla de productos o estado vacío */}
+        {/* Grilla de Productos o Estado Vacío */}
         {products.length === 0 ? (
-          <div className="surface-card mt-6 p-10 text-center">
-            <p className="text-muted-foreground">
-              No encontramos productos con ese filtro. Probá con otra categoría.
+          <div className="surface-card mt-6 rounded-3xl p-10 text-center">
+            <p className="text-base text-muted-foreground">
+              No encontramos productos que coincidan con tu búsqueda o filtro.
             </p>
             <Button
-              className="mt-4 min-h-11"
+              className="mt-5 min-h-11 shadow-xs"
               onClick={() => {
                 setCategory('todos');
                 setQuery('');
@@ -91,37 +114,43 @@ export default function Catalogo() {
             </Button>
           </div>
         ) : (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul
+            aria-label="Listado de productos"
+            className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch"
+          >
             {products.map((product, index) => (
-              <Reveal key={product.id} delay={Math.min(index, 5) * 0.05}>
-                <ProductCard product={product} />
-              </Reveal>
+              <li key={product.id} className="flex">
+                <Reveal
+                  delay={Math.min(index, 6) * 0.05}
+                  className="h-full w-full flex flex-col"
+                >
+                  <ProductCard product={product} />
+                </Reveal>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </div>
   );
 }
 
-function FilterChip({
-  active,
-  onClick,
-  children,
-}: {
+interface FilterChipProps {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
-}) {
+}
+
+function FilterChip({ active, onClick, children }: FilterChipProps) {
   return (
     <button
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`min-h-11 rounded-full border px-4 text-sm font-medium transition-colors ${
+      className={`min-h-11 rounded-full border px-5 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-olive focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
         active
-          ? 'border-olive bg-primary text-primary-foreground'
-          : 'border-border bg-card hover:bg-secondary'
+          ? 'border-transparent bg-primary text-primary-foreground shadow-2xs'
+          : 'border-border bg-card text-foreground shadow-2xs hover:bg-secondary hover:border-border'
       }`}
     >
       {children}

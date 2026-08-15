@@ -31,15 +31,15 @@ export function ProductCard({ product }: ProductCardProps) {
       image: product.images[0],
       quantity: 1,
     });
-    toast.success(`${product.name} agregado a tu carrito`);
+    toast.success(`${product.name} agregado al carrito`);
   };
 
   return (
-    <article className="surface-card hover-lift group flex flex-col justify-between overflow-hidden">
+    <article className="surface-card hover-lift group flex h-full flex-col justify-between overflow-hidden">
       {/* Área interactiva principal que abre el modal */}
       <div
         onClick={() => setOpen(true)}
-        className="cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-olive"
+        className="cursor-pointer text-left rounded-t-2xl"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -50,21 +50,23 @@ export function ProductCard({ product }: ProductCardProps) {
         }}
         aria-label={`Ver detalle de ${product.name}`}
       >
+        {/* Imagen del producto con badge de código */}
         <div className="relative aspect-square w-full overflow-hidden bg-secondary">
           <Image
             src={product.images[0]}
             alt={`${product.name} - ${product.material}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
-          <span className="absolute top-3 left-3 rounded-full bg-ivory/90 px-3 py-1 text-xs font-semibold text-graphite shadow-sm backdrop-blur-xs">
+          <span className="absolute top-3 left-3 rounded-full border border-border/50 bg-background/90 px-3 py-1 text-xs font-semibold text-foreground shadow-2xs backdrop-blur-xs">
             {product.id}
           </span>
         </div>
 
+        {/* Información resumida */}
         <div className="p-5">
-          <span className="text-xs font-medium uppercase tracking-wider text-olive">
+          <span className="text-xs font-semibold uppercase tracking-wider text-olive">
             {categoryName(product.category)}
           </span>
           <h3 className="mt-1 font-display text-lg font-semibold text-foreground">
@@ -74,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
           <div className="mt-3 flex flex-wrap gap-1.5">
             {product.badges.map((badge) => (
-              <Badge key={badge} variant="secondary">
+              <Badge key={badge} variant="secondary" className="font-normal">
                 {badge}
               </Badge>
             ))}
@@ -83,16 +85,16 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Botones de acción */}
-      <div className="flex gap-2 px-5 pb-5 pt-2">
+      <div className="flex gap-2 p-5 pt-0">
         <Button
-          className="min-h-11 flex-1 font-semibold"
+          className="min-h-11 flex-1 font-semibold shadow-xs"
           onClick={handleAddToCart}
         >
           Agregar
         </Button>
         <Button
           variant="outline"
-          className="min-h-11"
+          className="min-h-11 font-medium"
           onClick={() => setOpen(true)}
         >
           Ver detalle
@@ -118,12 +120,16 @@ function ProductDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-3xl">
-        <div className="grid gap-6 md:grid-cols-2">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-3xl bg-card border-border">
+        <div className="grid gap-6 md:grid-cols-2 items-start">
+          
           {/* Galería de Imágenes */}
           <div className="space-y-3">
             {product.images.map((src, index) => (
-              <div key={`${product.id}-${index}`} className="relative aspect-square w-full overflow-hidden rounded-2xl bg-muted">
+              <div
+                key={`${product.id}-${index}`}
+                className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/60 bg-muted"
+              >
                 <Image
                   src={src}
                   alt={`${product.name} — vista ${index + 1}`}
@@ -138,8 +144,11 @@ function ProductDialog({
           {/* Detalles e Historia del Producto */}
           <div className="flex flex-col justify-between">
             <div>
-              <DialogTitle className="font-display text-2xl font-bold">{product.name}</DialogTitle>
-              <DialogDescription className="mt-2 text-sm text-muted-foreground">
+              <DialogTitle className="font-display text-2xl font-bold text-foreground">
+                {product.name}
+              </DialogTitle>
+              
+              <DialogDescription className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {product.description}
               </DialogDescription>
 
@@ -170,16 +179,24 @@ function ProductDialog({
                 ))}
               </div>
 
-              <ul className="mt-5 space-y-1 text-sm text-muted-foreground">
-                {product.customizable && <li>✓ Apto para personalización empresarial / logo.</li>}
-                <li>✓ Confección artesanal e inclusión laboral.</li>
+              <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground">
+                {product.customizable && (
+                  <li className="flex items-center gap-1.5">
+                    <span className="font-bold text-olive" aria-hidden="true">✓</span>
+                    <span>Apto para personalización empresarial / logo.</span>
+                  </li>
+                )}
+                <li className="flex items-center gap-1.5">
+                  <span className="font-bold text-olive" aria-hidden="true">✓</span>
+                  <span>Confección artesanal e inclusión laboral.</span>
+                </li>
               </ul>
             </div>
 
-            <div className="mt-6 flex flex-col gap-2 pt-4">
+            <div className="mt-8 pt-4 border-t border-border/60">
               <Button
                 size="lg"
-                className="min-h-12 w-full font-semibold"
+                className="min-h-12 w-full font-semibold shadow-xs"
                 onClick={() => {
                   addToCart({
                     code: product.id,
@@ -188,7 +205,7 @@ function ProductDialog({
                     image: product.images[0],
                     quantity: 1,
                   });
-                  toast.success(`${product.name} agregado a tu pedido`);
+                  toast.success(`${product.name} agregado al carrito`);
                   onOpenChange(false);
                 }}
               >
@@ -196,8 +213,11 @@ function ProductDialog({
               </Button>
             </div>
           </div>
+
         </div>
       </DialogContent>
     </Dialog>
   );
 }
+
+export default ProductCard;

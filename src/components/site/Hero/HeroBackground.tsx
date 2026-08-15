@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Reveal } from '@/components/site/Reveal';
 
 export interface ButtonConfig {
   label: string;
@@ -28,92 +29,116 @@ export function HeroBackground({
   primaryButton,
   secondaryButton,
   showDivider1 = true,
-  showDivider2 = true
+  showDivider2 = true,
 }: HeroBackgroundProps) {
-  // Clase unificada para que ambos botones sean idénticos
+  // Estilo unificado y accesible para botones sobre fondo oscuro
   const buttonStyle =
-    'rounded-full border-white/80 bg-black/20 text-white hover:bg-gold/20 hover:text-black font-medium px-8 py-6 text-base backdrop-blur-sm transition-transform hover:scale-105';
+    'min-h-12 rounded-full border border-white/80 bg-black/30 text-white font-medium px-8 py-3.5 text-base backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-honey/30 hover:border-honey hover:text-white motion-reduce:hover:scale-100 shadow-sm';
 
   return (
-    <section className="relative flex min-h-[80vh] w-full items-center justify-center overflow-hidden bg-background">
-      {/* Background Image */}
+    <section
+      aria-label="Portada principal"
+      className="relative flex min-h-[75vh] md:min-h-[85vh] w-full items-center justify-center overflow-hidden bg-background"
+    >
+      {/* Imagen de Fondo */}
       <Image
         src={bgImageUrl}
         alt={bgAlt}
         fill
         priority
         quality={90}
+        sizes="100vw"
         className="object-cover object-center grayscale contrast-125 brightness-90"
       />
 
-      {/* Capa Miel */}
+      {/* Capa de Color Honey */}
       <div
-        className="absolute inset-0 bg-honey-deep mix-blend-multiply"
+        className="absolute inset-0 bg-honey-deep mix-blend-multiply opacity-90"
         aria-hidden="true"
       />
 
-      {/* Sombra de contraste */}
+      {/* Sombra de contraste para legibilidad de texto */}
       <div
-        className="absolute inset-0 bg-black/30"
+        className="absolute inset-0 bg-black/40"
         aria-hidden="true"
       />
 
       {/* Contenido Principal */}
-      <div className="container-page relative z-10 mx-auto flex max-w-4xl flex-col items-center py-5 text-center text-white">
-        
-        {/* Bajada superior */}
-        {subTitle && (
-          <p className="text-sm md:text-base font-medium tracking-wide mt-4 text-white/90">
-            {subTitle}
-          </p>
-        )}
-
-        {/* Línea decorativa */}
-        {showDivider1 && (
-          <div className="w-16 h-1 bg-honey rounded-full my-6" />
-        )}
-        
-        {/* Título Inspiracional */}
-        <h1 className="font-display text-3xl font-extrabold leading-tight text-balance text-white sm:text-5xl md:text-6xl uppercase tracking-wide drop-shadow-sm">
-          {title}
-        </h1>
-
-        {/* Línea decorativa */}
-        {showDivider2 && (
-          <div className="w-16 h-1 bg-honey rounded-full my-6" />
-        )}
-
-        {description && (
-          <p className="mt-4 max-w-2xl text-lg text-muted">
-             {description}
-          </p>
-        )}
-
-        {/* Botones de Acción Opcionales e Idénticos */}
-        {(primaryButton || secondaryButton) && (
-          <div className="mt-8 mb-4 flex flex-col sm:flex-row items-center gap-4">
+      <div className="container-page relative z-10 mx-auto flex max-w-4xl flex-col items-center py-12 text-center text-white">
+        <Reveal>
+          <div className="flex flex-col items-center">
             
-            {secondaryButton && (
-              <Button asChild variant="outline" size="lg" className={buttonStyle}>
-                <Link href={secondaryButton.href}>
-                  {secondaryButton.label}
-                </Link>
-              </Button>
+            {/* Subtítulo superior */}
+            {subTitle && (
+              <p className="text-sm font-medium uppercase tracking-widest text-white/90 sm:text-base">
+                {subTitle}
+              </p>
             )}
 
-            {primaryButton && (
-              <Button asChild variant="outline" size="lg" className={buttonStyle}>
-                <Link href={primaryButton.href}>
-                  {primaryButton.label}
-                </Link>
-              </Button>
+            {/* Línea decorativa 1 */}
+            {showDivider1 && (
+              <div
+                className="my-5 h-1 w-16 rounded-full bg-honey"
+                aria-hidden="true"
+              />
+            )}
+
+            {/* Título Principal */}
+            <h1 className="font-display text-3xl font-extrabold uppercase tracking-wide text-white drop-shadow-sm sm:text-5xl md:text-6xl text-balance-tight leading-tight">
+              {title}
+            </h1>
+
+            {/* Línea decorativa 2 */}
+            {showDivider2 && (
+              <div
+                className="my-5 h-1 w-16 rounded-full bg-honey"
+                aria-hidden="true"
+              />
+            )}
+
+            {/* Descripción */}
+            {description && (
+              <p className="mt-2 max-w-2xl text-base sm:text-lg md:text-xl font-normal leading-relaxed text-white/90 text-balance-tight">
+                {description}
+              </p>
+            )}
+
+            {/* Botones de Acción */}
+            {(primaryButton || secondaryButton) && (
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                {primaryButton && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className={buttonStyle}
+                  >
+                    <Link href={primaryButton.href}>
+                      {primaryButton.label}
+                    </Link>
+                  </Button>
+                )}
+
+                {secondaryButton && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className={buttonStyle}
+                  >
+                    <Link href={secondaryButton.href}>
+                      {secondaryButton.label}
+                    </Link>
+                  </Button>
+                )}
+              </div>
             )}
 
           </div>
-        )}
-
+        </Reveal>
       </div>
     </section>
   );
 }
 
+export default HeroBackground;
